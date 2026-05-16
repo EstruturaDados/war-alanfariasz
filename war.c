@@ -20,8 +20,8 @@
 
 // --- Constantes Globais ---
 // Definem valores fixos para o número de territórios, missões e tamanho máximo de strings, facilitando a manutenção.
-#define MAX_TERRITORIOS 50
-
+#define MAX_TERRITORIOS 5
+#define MAX_STRING 100
 
 // --- Estrutura de Dados ---
 // Define a estrutura para um território, contendo seu nome, a cor do exército que o domina e o número de tropas.
@@ -50,6 +50,8 @@ int main() {
     // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
     // - Aloca a memória para o mapa do mundo e verifica se a alocação foi bem-sucedida.
     // - Preenche os territórios com seus dados iniciais (tropas, donos, etc.).
+    printf("=====================================\n\n");
+    printf("Vamos cadastrar os %d territorios iniciais do nosso mundo!\n", MAX_TERRITORIOS);
     // - Define a cor do jogador e sorteia sua missão secreta.
 
     struct Territorio territorio1[MAX_TERRITORIOS]; // cria um vetor do tipo Territorio com 5 espaços(territórios).
@@ -59,18 +61,38 @@ int main() {
     // - Roda em um loop 'do-while' que continua até o jogador sair (opção 0) ou vencer.
     for (int i = 0; i < MAX_TERRITORIOS; i++)
     {
-        printf("Informe o nome do territorio: \n");
-        fgets(territorio1[totalTerritorios].nome, MAX_TERRITORIOS, stdin);
+        printf("\n--- Cadastrando territorio %d--- ", totalTerritorios + 1);
+        printf("\nInforme o nome do Territorio: ");
+        fgets(territorio1[totalTerritorios].nome, MAX_STRING, stdin);
 
-        printf("Informe a cor do territorio: \n");
-        fgets(territorio1[totalTerritorios].cor, MAX_TERRITORIOS, stdin);
+        printf("\nInforme a cor do Exercito(ex: Azul, Verde): ");
+        fgets(territorio1[totalTerritorios].cor, MAX_STRING, stdin);
 
-        printf("Quantas tropas o território tem? \n");
-        scanf("%d", &territorio1[totalTerritorios].numeroTropas);
+        territorio1[totalTerritorios].nome[strcspn(territorio1[totalTerritorios].nome, "\n")] = '\0';
+        territorio1[totalTerritorios].cor[strcspn(territorio1[totalTerritorios].nome, "\n")] = '\0';
+
+        printf("\nQuantas tropas o Exercito tem? ");
+        scanf("\n%d", &territorio1[totalTerritorios].numeroTropas);
+        limpaBufferEntrada();
+
         totalTerritorios++;
     }
+    printf("\nCadastro inicial realizado com sucesso!");
+    printf("%d", totalTerritorios);
+    printf("\n===========================================");
+    printf("\n        MAPA DO MUNDO - ESTADO ATUAL        ");
+    printf("\n===========================================\n");
+    int i = 0;
+    do
+    {
+        printf("TERRITORIO %d\n", i + 1);
+        printf("   - NOME: %s\n", territorio1[i].nome);
+        printf("   - DOMINADO POR: Exercito %s\n", territorio1[i].cor);
+        printf("   - Tropas: %d\n", territorio1[i].numeroTropas);
+        i++;
+
+    } while (i < MAX_TERRITORIOS);
     
-    printf(totalTerritorios);
     // - A cada iteração, exibe o mapa, a missão e o menu de ações.
     // - Lê a escolha do jogador e usa um 'switch' para chamar a função apropriada:
     //   - Opção 1: Inicia a fase de ataque.
