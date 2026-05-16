@@ -15,16 +15,29 @@
 // ============================================================================
 
 // Inclusão das bibliotecas padrão necessárias para entrada/saída, alocação de memória, manipulação de strings e tempo.
+#include <stdio.h>
+#include <string.h>
 
 // --- Constantes Globais ---
 // Definem valores fixos para o número de territórios, missões e tamanho máximo de strings, facilitando a manutenção.
+#define MAX_TERRITORIOS 50
+
 
 // --- Estrutura de Dados ---
 // Define a estrutura para um território, contendo seu nome, a cor do exército que o domina e o número de tropas.
+struct Territorio {
+    char nome[30];
+    char cor[10];
+    int numeroTropas;
+};
 
 // --- Protótipos das Funções ---
 // Declarações antecipadas de todas as funções que serão usadas no programa, organizadas por categoria.
 // Funções de setup e gerenciamento de memória:
+void limpaBufferEntrada() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+};
 // Funções de interface com o usuário:
 // Funções de lógica principal do jogo:
 // Função utilitária:
@@ -39,8 +52,25 @@ int main() {
     // - Preenche os territórios com seus dados iniciais (tropas, donos, etc.).
     // - Define a cor do jogador e sorteia sua missão secreta.
 
+    struct Territorio territorio1[MAX_TERRITORIOS]; // cria um vetor do tipo Territorio com 5 espaços(territórios).
+    int totalTerritorios = 0;
+    int opcao;
     // 2. Laço Principal do Jogo (Game Loop):
     // - Roda em um loop 'do-while' que continua até o jogador sair (opção 0) ou vencer.
+    for (int i = 0; i < MAX_TERRITORIOS; i++)
+    {
+        printf("Informe o nome do territorio: \n");
+        fgets(territorio1[totalTerritorios].nome, MAX_TERRITORIOS, stdin);
+
+        printf("Informe a cor do territorio: \n");
+        fgets(territorio1[totalTerritorios].cor, MAX_TERRITORIOS, stdin);
+
+        printf("Quantas tropas o território tem? \n");
+        scanf("%d", &territorio1[totalTerritorios].numeroTropas);
+        totalTerritorios++;
+    }
+    
+    printf(totalTerritorios);
     // - A cada iteração, exibe o mapa, a missão e o menu de ações.
     // - Lê a escolha do jogador e usa um 'switch' para chamar a função apropriada:
     //   - Opção 1: Inicia a fase de ataque.
